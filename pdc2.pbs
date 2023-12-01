@@ -35,7 +35,7 @@ echo ------------------------------
 
 export PSC_OMP_AFFINITY=TRUE
 
-gcc -std=c99 -fopenmp -lgomp -o $PBS_O_WORKDIR/MatriceVettoreShared $PBS_O_WORKDIR/ main.c
+gcc -std=c99 -fopenmp -lgomp -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/main.c $PBS_O_WORKDIR/utilities.c $PBS_O_WORKDIR/data_structures.c
 
 ROWS=1000
 COLUMNS =100
