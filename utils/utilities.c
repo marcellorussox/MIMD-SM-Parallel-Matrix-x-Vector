@@ -1,5 +1,7 @@
+#include <stdlib.h>
 #include <stdio.h>
-#include "utilities.h"
+#include <string.h>
+#include "../headers/utilities.h"
 
 
 /*
@@ -113,7 +115,7 @@ int check_args_code(int argc, char** argv) {
 
 	@params:
 		int argc: Numero di argomenti passati in ingresso al programma
-		char* argv[]: Argomenti passati in ingresso al programma
+		char* argv[]: Argomenti passati in ingresso al programma.T
 
 	@return:
 		int: Codice errore/successo
@@ -169,6 +171,8 @@ int check_args(int argc, char** argv) {
                    SD_ARG_THREADS, DD_ARG_THREADS, DD_ARG_HELP
             );
             return ERR_INVLD_THREADS;
-
+        default:
+            printf("ERROR NOT MANAGED");
+            return ERR_NOT_MANAGED;
     }
 }

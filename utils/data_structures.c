@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include <string.h>
-#include "data_structures.h"
+#include "../headers/data_structures.h"
 
 
 /*
@@ -76,21 +78,20 @@ double** random_matrix(int rows, int columns) {
 
 */
 
-double* product(int rows, int columns, double** matrix, double* restrict vector) {
+double *product(int rows, int columns, double **matrix, double* vector)
+{
 
-    double* product = (double*) calloc(rows, sizeof(double));
-    if(product) {
-#pragma omp parallel for default(none) shared(rows, columns, matrix, vector, product)
-        for(int i = 0; i < rows; i++)
-            for(int j = 0; j < columns; j++)
-                product[i] += matrix[i][j]*vector[j];
+    double *product = (double *)calloc(rows, sizeof(double));
+    if (product)
+    {
+        #pragma omp parallel for default(none) shared(rows, columns, matrix, vector, product)
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                product[i] += matrix[i][j] * vector[j];
     }
 
     return product;
-
 }
-
-
 
 /*
 

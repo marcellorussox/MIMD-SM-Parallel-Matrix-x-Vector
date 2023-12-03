@@ -21,6 +21,7 @@
 #define ERR_INVLD_COLUMNS   405
 #define ERR_INVLD_THREADS   406
 #define ERR_MEMORY          407
+#define ERR_NOT_MANAGED     408
 
 void help(char* program_name);
 int check_args_code(int argc, char** argv);

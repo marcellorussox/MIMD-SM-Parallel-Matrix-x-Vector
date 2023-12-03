@@ -3,8 +3,8 @@
 #include <time.h>
 #include <sys/time.h>
 #include <omp.h>
-#include "data_structures.h"
-#include "utilities.h"
+#include "headers/data_structures.h"
+#include "headers/utilities.h"
 
 
 
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 
     /* Controllo degli argomenti passati in ingresso */
 
-    check_args(argc, argv)
+    check_args(argc, argv);
 
 
     /* Lettura degli argomenti passati in ingresso */
@@ -52,8 +52,8 @@ int main(int argc, char** argv) {
     /* Generazione della matrice e del vettore */
 
     srand(time(NULL));
-    matrix = generate_random_matrix(rows, columns, 0.0, 5.0);
-    vector = generate_random_vector(columns, 0.0, 5.0);
+    matrix = random_matrix(rows, columns);
+    vector = random_vector(columns);
     if(!matrix || !vector) {
         printf("\n <!> ERROR: Unable to allocate memory.\n");
         return ERR_MEMORY;
