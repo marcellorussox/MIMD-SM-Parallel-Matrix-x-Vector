@@ -24,7 +24,7 @@
 #define ERR_NOT_MANAGED     408
 
 void help(char* program_name);
-int check_args_code(int argc, char** argv);
-int check_args(int argc, char** argv);
+int get_params_code(int argc, char** argv);
+int check_params(int argc, char** argv);
 
 #endif

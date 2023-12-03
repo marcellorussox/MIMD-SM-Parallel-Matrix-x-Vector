@@ -10,99 +10,75 @@
 
 int main(int argc, char** argv) {
 
-    /*
-        rows: Numero di righe della matrice;
-        columns: Numero di colonne della matrice;
-        threads: Numero di thread impiegati;
+    int rows; //? N. righe matrice
+    int columns; //? N. colonne matrice
+    int threads; //? N. thread da usare
 
-        matrix: Matrice da impiegare nel prodotto;
-        vector: Vettore da impiegare nel prodotto;
-        result: Vettore risultate dal prodotto tra matrix e vector
+    double** matrix; //? Matrice
+    double* vector; //? Vettore
+    double* result; //? Risultato del prodotto (Vettore)
 
-        time_start: Timestamp all'inizio del calcolo del prodotto;
-        time_end: Timestamp al termine del calcolo del prodotto;
-        overall_time: Tempo complessivo impiegato per effettuare il prodotto;
-    */
-
-    int rows;
-    int columns;
-    int threads;
-
-    double** matrix;
-    double* vector;
-    double* result;
-
-    struct timeval time_start;
-    struct timeval time_end;
-    double overall_time;
+    struct timeval time_start; //? Ora inizio
+    struct timeval time_end; //? Ora fine
+    double overall_time; //? Tempo impiegato
 
 
-    /* Controllo degli argomenti passati in ingresso */
+    
+    //? Verifica parametri
+    check_params(argc, argv);
 
-    check_args(argc, argv);
 
-
-    /* Lettura degli argomenti passati in ingresso */
-
+    //? Imposto i valori
     rows = atoi(argv[2]);
     columns = atoi(argv[4]);
     threads = atoi(argv[6]);
 
 
-    /* Generazione della matrice e del vettore */
-
-    srand(time(NULL));
-    matrix = random_matrix(rows, columns);
-    vector = random_vector(columns);
+    //? Generazione della matrice e del vettore
+    matrix = get_random_matrix(rows, columns);
+    vector = get_random_vector(columns);
     if(!matrix || !vector) {
         printf("\n <!> ERROR: Unable to allocate memory.\n");
         return ERR_MEMORY;
     }
 
 
-    /* Stampa della matrice e del vettore generati */
-
-    printf("\n > Generated Matrix \n\n");
+    //? Stampa della matrice e del vettore ottenuti
+    printf("\nRandom Matrix: \n\n");
     print_matrix(matrix, rows, columns);
-    printf("\n\n > Generated Vector \n\n");
+    printf("\n\nRandom Vector: \n\n");
     print_vector(vector, columns);
 
 
-    /* Imposta il numero di thread da impiegare */
-
+    //? Set del numero di thread da usare
     omp_set_num_threads(threads);
 
 
-    /* Cattura il timestamp all'inizio del calcolo del prodotto */
-
+    //? Segna l'ora di inizio
     gettimeofday(&time_start, NULL);
 
 
-    /* Effettua il prodotto tra la matrice e il vettore */
-
-    result = product(rows, columns, matrix, vector);
+    //? Calcolo il prodotto VETTORE X MATRICE
+    result = vec_mat_product(rows, columns, matrix, vector);
     if(!result){
         printf("\n <!> ERROR: Unable to allocate memory.\n");
         return ERR_MEMORY;
     }
 
 
-    /* Cattura il timestamp al termine del calcolo del prodotto */
-
+    //? Segna l'ora di fine
     gettimeofday(&time_end, NULL);
 
 
-    /* Calcolo il tempo impiegato */
-
+    //? Ottiene il tempo effettivo
     overall_time = (time_end.tv_sec+(time_end.tv_usec/1000000.0)) -
                    (time_start.tv_sec+(time_start.tv_usec/1000000.0));
 
 
-    /* Stampa del prodotto e del tempo impiegato */
-
-    printf("\n\n > Product Vector \n\n");
+    //? Stampa dei risultati ottenuti
+    printf("\n\nProduct Vector: \n\n");
     print_vector(result, rows);
-    printf("\n\n > Overall time: %lf\n", overall_time);
+    printf("\nOverall time: %lf\n", overall_time);
 
     return 0;
 

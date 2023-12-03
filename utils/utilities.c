@@ -4,19 +4,9 @@
 #include "../headers/utilities.h"
 
 
-/*
-
-	Stampa a video l'help del programma
-
-	@params:
-		char* program_name: Nome del programma
-
-	@return:
-		void
-
-*/
-
-void help(char* program_name) {
+//? Stampa le indicazioni di utilizzo.
+//? Per chiamare questa funzione passare come unico parametro il flag --help
+void print_how_to_use(char* program_name) {
 
     printf(
             "\n > Usage: %s [%s %s] <value> [%s %s] <value> [%s %s] <value>",
@@ -52,25 +42,13 @@ void help(char* program_name) {
     printf("\n        %d %-20s Invalid number of columns provided", ERR_INVLD_COLUMNS, "ERR_INVLD_COLUMNS");
     printf("\n        %d %-20s Invalid number of threads provided", ERR_INVLD_THREADS, "ERR_INVLD_THREADS");
     printf("\n        %d %-20s Unable to allocate memory\n", ERR_MEMORY, "ERR_MEMORY");
+    printf("\n        %d %-20s Unmanaged error\n", ERR_NOT_MANAGED, "ERR_NOT_MANAGED");
 
 }
 
 
-
-/*
-
-	Verifica l'integrita' degli argomenti passati in ingresso al programma
-
-	@params:
-		int argc: Numero di argomenti passati in ingresso al programma
-		char* argv[]: Argomenti passati in ingresso al programma
-
-	@return:
-		int: Codice errore/successo
-
-*/
-
-int check_args_code(int argc, char** argv) {
+//? Esegue la verifica dei parametri passati da linea di comando
+int get_params_code(int argc, char** argv) {
 
     if(argc == 2 && !strcmp(argv[1], DD_ARG_HELP))
         return SCC_HELP;
@@ -108,25 +86,12 @@ int check_args_code(int argc, char** argv) {
 }
 
 
-
-/*
-
-	Gestisce il codice di errore o successo restituito da check_args_code
-
-	@params:
-		int argc: Numero di argomenti passati in ingresso al programma
-		char* argv[]: Argomenti passati in ingresso al programma.T
-
-	@return:
-		int: Codice errore/successo
-
-*/
-
-int check_args(int argc, char** argv) {
-    switch(check_args_code(argc, argv)) {
+//? Stampa il messaggio di errore relativo ad un dato codice di errore
+int check_params(int argc, char** argv) {
+    switch(get_params_code(argc, argv)) {
 
         case SCC_HELP:
-            help(argv[0]);
+            print_how_to_use(argv[0]);
             return SCC_HELP;
 
         case ERR_ARGC:
