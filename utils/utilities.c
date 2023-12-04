@@ -137,7 +137,6 @@ int check_params(int argc, char** argv) {
             );
             return ERR_INVLD_THREADS;
         default:
-            printf("ERROR NOT MANAGED");
-            return ERR_NOT_MANAGED;
+            return SCC_ARGS;
     }
 }
