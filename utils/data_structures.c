@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
-#include <string.h>
 #include <time.h>
 #include "../headers/data_structures.h"
 
@@ -46,9 +44,9 @@ double** get_random_matrix(int rows, int columns) {
 
 
 //? Esegue il calcolo del prodotto MATRICE X VETTORE
-double *mat_vec_product(int rows, int columns, double **matrix, double* vector)
+double* mat_vec_product(int rows, int columns, double **matrix, double* vector)
 {
-    double *product = (double *)calloc(rows, sizeof(double));
+    double* product = (double *)calloc(rows, sizeof(double));
     if (product) {
         #pragma omp parallel for default(none) shared(rows, columns, matrix, vector, product)
         for (int i = 0; i < rows; i++)
