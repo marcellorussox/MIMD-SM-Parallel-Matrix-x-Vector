@@ -45,12 +45,11 @@ double** get_random_matrix(int rows, int columns) {
 }
 
 
-//? Esegue il calcolo del prodotto VETTORE X MATRICE
+//? Esegue il calcolo del prodotto MATRICE X VETTORE
 double *mat_vec_product(int rows, int columns, double **matrix, double* vector)
 {
     double *product = (double *)calloc(rows, sizeof(double));
-    if (product)
-    {
+    if (product) {
         #pragma omp parallel for default(none) shared(rows, columns, matrix, vector, product)
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++)
