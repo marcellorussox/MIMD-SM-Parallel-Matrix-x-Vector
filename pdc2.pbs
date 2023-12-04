@@ -22,8 +22,7 @@ cat "$PBS_NODEFILE"
 PBS_O_WORKDIR=$PBS_O_HOME/pdc2
 echo ----------------------------------
 echo PBS: qsub is running on "$PBS_O_HOST"
-# shellcheck disable=SC2086
-echo PBS: originating queue is $PBS_O_QUEUE
+echo PBS: originating queue is "$PBS_O_QUEUE"
 echo PBS: executing queue is "$PBS_QUEUE"
 echo PBS: working directory is "$PBS_O_WORKDIR"
 echo PBS: execution mode is "$PBS_ENVIRONMENT"
@@ -38,15 +37,18 @@ export PSC_OMP_AFFINITY=TRUE
 
 gcc -std=c99 -fopenmp -lgomp -o "$PBS_O_WORKDIR"/main "$PBS_O_WORKDIR"/main.c "$PBS_O_WORKDIR"/utils/*
 
-ROWS=100000
-COLUMNS=1000
+ROWS=100
+COLUMNS=100
+
+echo -e "<============== TEST $ROWS x $COLUMNS ==============>\n\n"
 
 for THREADS in {1..8}
 do
-    for TEST in {1..5}
-    do
-    echo -e "<============[THREADS: $THREADS - TEST: $TEST - ($ROWS, $COLUMNS) ]============>\n"
-    "$PBS_O_WORKDIR"/main --rows $ROWS --columns $COLUMNS --threads "$THREADS"
-    echo -e " <===========================================================================>\n"
-    done
+  echo -e "<====== NUMBER OF THREADS: $THREADS ======>\n"
+  for TEST in {1..5}
+  do
+  echo -e "<======= TEST $TEST =======>"
+  "$PBS_O_WORKDIR"/main --rows $ROWS --columns $COLUMNS --threads "$THREADS"
+  echo -e "\n<======================>\n\n"
+  done
 done
