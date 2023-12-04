@@ -46,7 +46,7 @@ double** get_random_matrix(int rows, int columns) {
 
 
 //? Esegue il calcolo del prodotto VETTORE X MATRICE
-double *vec_mat_product(int rows, int columns, double **matrix, double* vector)
+double *mat_vec_product(int rows, int columns, double **matrix, double* vector)
 {
     double *product = (double *)calloc(rows, sizeof(double));
     if (product)
