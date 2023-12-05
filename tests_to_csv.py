@@ -2,6 +2,9 @@ import os
 import csv
 import re
 
+import pandas as pd
+
+
 def extract_out_data(file_path):
     with open(file_path, 'r') as file:
         content = file.read()
@@ -32,6 +35,20 @@ def process_directory(directory_path):
 
     return out_data
 
+
+def calculate_average_pandas(input_csv):
+    df = pd.read_csv(input_csv)
+
+    # Calcola la media della quarta colonna per ogni tupla delle prime tre colonne uguali
+    result_df = df.groupby(['ROWS', 'COLUMNS', 'NUM_THREADS'])['TIME'].mean().reset_index()
+
+    # Arrotonda i valori a 6 cifre decimali
+    result_df['TIME'] = result_df['TIME'].round(6)
+
+    # Scrivi il DataFrame con le medie su un nuovo file CSV
+    result_df.to_csv(input_csv, index=False)
+
+
 def main(input_directory, output_csv):
     all_data = []
 
@@ -45,10 +62,14 @@ def main(input_directory, output_csv):
 
     with open(output_csv, 'w', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
-        csv_writer.writerow(['rows', 'columns', 'threads', 'test', 'time'])
+        csv_writer.writerow(['ROWS', 'COLUMNS', 'NUM_THREADS', 'TIME'])
         csv_writer.writerows(all_data)
 
     print(f"I dati sono stati esportati con successo nel file CSV: {output_csv}")
+
+    calculate_average_pandas(output_csv)
+
+    print(f"I dati sono stati aggiornati con la media nel file CSV: {output_csv}")
 
 # Esempio di utilizzo
 main('test', 'data.csv')
