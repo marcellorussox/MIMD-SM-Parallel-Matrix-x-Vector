@@ -35,7 +35,6 @@ double** get_random_matrix(int rows, int columns) {
                 return NULL;
             }
             for (int j = 0; j < columns; j++) {
-                //matrix[i][j] = (double)rand() / RAND_MAX;
                 matrix[i][j] = (double)rand() / RAND_MAX;
             }
         }
