@@ -2,6 +2,7 @@ import os
 import csv
 import re
 
+import numpy as np
 import pandas as pd
 
 
@@ -28,6 +29,7 @@ def extract_out_data(file_path):
 
     return data
 
+
 def process_directory(directory_path):
     out_file_path = os.path.join(directory_path, 'pdc2.out')
 
@@ -52,6 +54,27 @@ def calculate_average_and_sort_pandas(input_csv):
     df_sorted.to_csv(input_csv, index=False)
 
 
+def calculate_speedup_efficiency(input_csv):
+    # Leggi il file CSV come DataFrame
+    df = pd.read_csv(input_csv)
+
+    # Funzione per calcolare lo speedup
+    def calculate_speedup(row):
+        base_row = df[(df['NUM_THREADS'] == 1) & (df['ROWS'] == row['ROWS']) & (df['COLUMNS'] == row['COLUMNS'])]
+        if len(base_row) > 0:
+            return round(base_row['TIME'].values[0] / row['TIME'], 6)
+        return np.nan
+
+    # Applica la funzione per calcolare lo speedup
+    df['SPEEDUP'] = df.apply(calculate_speedup, axis=1)
+
+    # Calcola l'efficienza solo per i valori di speedup diversi da NaN
+    df['EFFICIENCY'] = np.where(df['SPEEDUP'].notna(), round(df['SPEEDUP'] / df['NUM_THREADS'], 6), np.nan)
+
+    # Scrivi il DataFrame risultante su un nuovo file CSV
+    df.to_csv(input_csv, index=False)
+
+
 def main(input_directory, output_csv):
     all_data = []
 
@@ -73,6 +96,11 @@ def main(input_directory, output_csv):
     calculate_average_and_sort_pandas(output_csv)
 
     print(f"I dati sono stati aggiornati con la media nel file CSV: {output_csv}")
+
+    calculate_speedup_efficiency(output_csv)
+
+    print(f"Sono stati calcolati i valori di Speedup ed Effcienza nel file CSV: {output_csv}")
+
 
 # Esempio di utilizzo
 main('test', 'data.csv')
