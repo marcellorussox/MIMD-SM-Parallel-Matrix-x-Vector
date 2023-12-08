@@ -31,7 +31,7 @@ def create_graphs(df, x_col, y_cols, num_threads_fixed=None, ninput_fixed=None, 
         columns_exp = int(math.log10(columns))
 
         for y_col in y_cols:
-            margin_percent = 0.2  # Modifica a seconda delle tue esigenze
+            margin_percent = 0.25  # Modifica a seconda delle tue esigenze
 
             # Calcola i valori minimi e massimi solo all'interno del gruppo corrente
             y_min = group[y_col].min() * (1 - margin_percent)
@@ -39,13 +39,12 @@ def create_graphs(df, x_col, y_cols, num_threads_fixed=None, ninput_fixed=None, 
 
             y_range = (y_min, y_max)
 
-            plt.plot(group[x_col], group[y_col], label=f'10^{rows_exp} x 10^{columns_exp}')
+            plt.plot(group[x_col], group[y_col])
 
-            plt.title(f'{y_col.capitalize()} vs Number of threads')
+            plt.title(f'(Matrix 10^{rows_exp} x 10^{columns_exp}) x (Vector 10^{columns_exp})')
             plt.xlabel('Number of threads')
             plt.ylabel(y_col.capitalize())
             plt.ylim(y_range)
-            plt.legend()
 
             plt.savefig(f'output/plots/plot_{y_col.lower()}_10_{rows_exp}x10_{columns_exp}.png')
             plt.close()
