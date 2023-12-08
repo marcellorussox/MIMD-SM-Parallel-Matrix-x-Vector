@@ -29,6 +29,7 @@ def create_graphs(df, x_col, y_cols, num_threads_fixed=None, ninput_fixed=None, 
 
         rows_exp = int(math.log10(rows))
         columns_exp = int(math.log10(columns))
+        margin_percent = 0.25
 
         for y_col in y_cols:
             # Calcola i valori minimi e massimi solo all'interno del gruppo corrente
