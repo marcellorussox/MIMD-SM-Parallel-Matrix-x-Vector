@@ -103,4 +103,4 @@ def main(input_directory, output_csv):
 
 
 # Esempio di utilizzo
-main('test', 'data.csv')
+main('output/test', 'data.csv')
