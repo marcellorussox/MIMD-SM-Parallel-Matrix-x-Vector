@@ -44,10 +44,10 @@ int main(int argc, char** argv) {
 
 
     //? Stampa della matrice e del vettore ottenuti
-    //printf("\nRandom Matrix: \n\n");
-    //print_matrix(matrix, rows, columns);
-    //printf("\n\nRandom Vector: \n\n");
-    //print_vector(vector, columns);
+    printf("\nRandom Matrix: \n\n");
+    print_matrix(matrix, rows, columns);
+    printf("\n\nRandom Vector: \n\n");
+    print_vector(vector, columns);
 
 
     //? Set del numero di thread da usare
@@ -76,8 +76,8 @@ int main(int argc, char** argv) {
 
 
     //? Stampa dei risultati ottenuti
-    //printf("\n\nProduct Vector: \n\n");
-    //print_vector(result, rows);
+    printf("\n\nProduct Vector: \n\n");
+    print_vector(result, rows);
     printf("\nOverall time: %lf\n", overall_time);
 
     return 0;
